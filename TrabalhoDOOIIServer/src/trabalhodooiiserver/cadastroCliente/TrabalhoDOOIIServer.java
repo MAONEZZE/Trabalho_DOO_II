@@ -18,7 +18,7 @@ public class TrabalhoDOOIIServer {
                         clientSock.getInetAddress().toString() + 
                         " at port " + clientSock.getPort());
                 
-                ValidacaoClienteTCP c = new ValidacaoClienteTCP(clientSock);
+                ValidacaoTCP c = new ValidacaoTCP(clientSock);
                 c.start();
             }
         } catch (IOException ex) {

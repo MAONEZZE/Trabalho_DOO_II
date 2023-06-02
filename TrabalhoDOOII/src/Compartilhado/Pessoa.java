@@ -1,6 +1,6 @@
 package Compartilhado;
 
-public abstract class Pessoa {
+public abstract class Pessoa extends EntidadeBase{
     protected String nome;
     protected String senha;
     protected String telefone;

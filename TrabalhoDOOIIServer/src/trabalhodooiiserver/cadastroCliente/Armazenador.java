@@ -17,13 +17,13 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 
-public class ArmazenadorCliente {
+public class Armazenador {
     private Socket clientSock;
     private DataOutputStream out;
     private String nomeArquivo;
     private List<String> listaVerificadora;
     
-    public ArmazenadorCliente(Socket clientSock){
+    public Armazenador(Socket clientSock){
         this.clientSock = clientSock;
     }
 
@@ -87,6 +87,12 @@ public class ArmazenadorCliente {
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage() + "ERRO", "ERRO",JOptionPane.ERROR_MESSAGE);
         }
+    }
+    
+    public void serializadorRemedio(List<String> listaRemedio){
+        this.nomeArquivo = "Remedios.ser";
+
+        serializador(listaRemedio, "Remedio");
     }
     
     public void serializadorCliente(List<String> listaCliente){ //passar a lista por aqui e so serializar dps

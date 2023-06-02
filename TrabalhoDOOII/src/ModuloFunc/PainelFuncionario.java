@@ -1,4 +1,4 @@
-package Main.janelasUnitarias;
+package ModuloFunc;
 
 import TrabalhoDOOII.Main;
 import org.json.simple.JSONObject;
@@ -90,6 +90,11 @@ public class PainelFuncionario extends javax.swing.JPanel {
 
         btn_inserir.setFont(new java.awt.Font("Georgia", 1, 10)); // NOI18N
         btn_inserir.setText("<html> \t\n<style> \t\t\n.obj {text-align: center;} \t\n</style>  \t\n<div class = \"obj\"> \t\t\nInserir <br> Remedio <br> no estoque \t\n</div> </html> ");
+        btn_inserir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_inserirMouseClicked(evt);
+            }
+        });
         add(btn_inserir, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, 130, -1));
 
         btn_remover.setFont(new java.awt.Font("Georgia", 1, 10)); // NOI18N
@@ -116,8 +121,12 @@ public class PainelFuncionario extends javax.swing.JPanel {
     }//GEN-LAST:event_bt_sairMouseClicked
 
     private void btn_msgFornMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_msgFornMouseClicked
-        Main.ctrlBase.opcaoPainelFuncionario(1, jsonRecebimento);
+        Main.ctrlBase.chat(jsonRecebimento);
     }//GEN-LAST:event_btn_msgFornMouseClicked
+
+    private void btn_inserirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_inserirMouseClicked
+        Main.ctrlBase.opcaoPainelFuncionario(1, jsonRecebimento);
+    }//GEN-LAST:event_btn_inserirMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

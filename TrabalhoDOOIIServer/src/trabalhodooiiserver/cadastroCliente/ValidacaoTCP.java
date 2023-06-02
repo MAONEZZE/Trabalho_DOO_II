@@ -11,11 +11,11 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-public class ValidacaoClienteTCP extends Thread{
+public class ValidacaoTCP extends Thread{
     private DataInputStream in;
     private Socket clientSock;
 
-    public ValidacaoClienteTCP(Socket sock) {  
+    public ValidacaoTCP(Socket sock) {  
         try {
             clientSock = sock;
             in = new DataInputStream(clientSock.getInputStream());
@@ -28,8 +28,9 @@ public class ValidacaoClienteTCP extends Thread{
     @Override
     public void run(){
         JSONParser jsonP = new JSONParser();
-        ArmazenadorCliente armC = new ArmazenadorCliente(clientSock);
+        Armazenador armC = new Armazenador(clientSock);
         
+        List<String> listaRemedio = armC.carregadorArquivos("Remedios.ser");
         List<String> listaCliente = armC.carregadorArquivos("Clientes.ser");
         List<String> listaForn = armC.carregadorArquivos("Fornecedor.ser");
         List<String> listaFunc = armC.carregadorArquivos("Funcionario.ser");
@@ -42,27 +43,32 @@ public class ValidacaoClienteTCP extends Thread{
                 msgIn = in.readUTF();
                 JSONObject json = (JSONObject) jsonP.parse(msgIn);
 
-                if(json.get("Comando").equals("Entrar")){
-                    armC.verificadorUsuario(json.get("CPF").toString(), json.get("Senha").toString(), listaGeral);
+                if(json.get("Objeto").equals("Remedio")){
+                    armC.serializadorRemedio(listaRemedio);
                 }
-                else if(json.get("Comando").equals("Cadastro")){
-                    
-                    listaGeral.add(msgIn);
-                    
-                    if(json.get("Tipo").equals("Fornecedor")){
-                        listaForn.add(msgIn);
-                        armC.serializadorFornecedor(listaForn);
+                else if(json.get("Objeto").equals("Usuario")){
+                    if(json.get("Comando").equals("Entrar")){
+                        armC.verificadorUsuario(json.get("CPF").toString(), json.get("Senha").toString(), listaGeral);
                     }
-                    else if(json.get("Tipo").equals("Funcionario")){
-                        listaFunc.add(msgIn);
-                        armC.serializadorFuncionario(listaFunc);
+                    else if(json.get("Comando").equals("Cadastro")){
+
+                        listaGeral.add(msgIn);
+
+                        if(json.get("Tipo").equals("Fornecedor")){
+                            listaForn.add(msgIn);
+                            armC.serializadorFornecedor(listaForn);
+                        }
+                        else if(json.get("Tipo").equals("Funcionario")){
+                            listaFunc.add(msgIn);
+                            armC.serializadorFuncionario(listaFunc);
+                        }
+                        else if(json.get("Tipo").equals("Cliente")){
+                            listaCliente.add(msgIn);
+                            armC.serializadorCliente(listaCliente);
+                        } 
+
+                        armC.serializadorGeral(listaGeral);
                     }
-                    else if(json.get("Tipo").equals("Cliente")){
-                        listaCliente.add(msgIn);
-                        armC.serializadorCliente(listaCliente);
-                    } 
-                    
-                    armC.serializadorGeral(listaGeral);
                 }
             }
         } catch (IOException ex) {

@@ -3,13 +3,14 @@ package Compartilhado;
 import Main.janelasPrincipais.Janela;
 import Main.janelasPrincipais.PainelCadastro;
 import Main.janelasPrincipais.PainelLogin;
-import Main.janelasUnitarias.PainelCliente;
-import Main.janelasUnitarias.PainelFornecedor;
-import Main.janelasUnitarias.PainelFuncionario;
+import ModuloCliente.PainelCliente;
+import ModuloForn.PainelFornecedor;
+import ModuloFunc.PainelFuncionario;
 import ModuloCliente.Cliente;
 import ModuloConversa.PainelChat;
 import ModuloForn.Fornecedor;
 import ModuloFunc.Funcionario;
+import ModuloRemedio.CadastroRemedio;
 import java.awt.BorderLayout;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -34,8 +35,11 @@ public class ControladorBase implements IControl{
     
     
     private PainelCliente pCliente;
+    
     private PainelFornecedor pForn;
+    
     private PainelFuncionario pFunc;
+    private CadastroRemedio pCadRemedio;
     
     //########## Comunicação Server ############//
     private InetAddress srvAddrGlobal;
@@ -77,11 +81,16 @@ public class ControladorBase implements IControl{
         this.janela.pack();                             
     }
     
+    public void chat(JSONObject json){
+        this.pChat = new PainelChat(json);
+        mostraTela(this.pChat);
+    }
+    
     public void opcaoPainelFuncionario(int op, JSONObject json){ // control Funcionario
         switch(op){
             case 1:
-                this.pChat = new PainelChat(json);
-                mostraTela(this.pChat);
+                this.pCadRemedio = new CadastroRemedio();
+                mostraTela(this.pCadRemedio);
                 break;
                 
             case 2:
@@ -195,6 +204,7 @@ public class ControladorBase implements IControl{
     public void criadorJsonEntrar(String cpf, String senha, String comando){
         JSONObject json = new JSONObject();
         
+        json.put("Objeto", "Usuario");
         json.put("CPF", cpf);
         json.put("Senha", senha);
         json.put("Comando", comando);
@@ -205,6 +215,7 @@ public class ControladorBase implements IControl{
     public void criadorJsonCadastro(Pessoa user, String comando){
         JSONObject json = new JSONObject();
         
+        json.put("Objeto", "Usuario");
         json.put("Nome", user.getNome());
         json.put("CPF", user.getCpf());
         json.put("Senha", user.getSenha());

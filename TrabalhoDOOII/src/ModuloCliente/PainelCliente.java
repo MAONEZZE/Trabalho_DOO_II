@@ -1,4 +1,4 @@
-package Main.janelasUnitarias;
+package ModuloCliente;
 
 import TrabalhoDOOII.Main;
 import org.json.simple.JSONObject;

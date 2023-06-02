@@ -161,6 +161,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="&lt;html&gt; &#x9;&#xa;&lt;style&gt; &#x9;&#x9;&#xa;.obj {text-align: center;} &#x9;&#xa;&lt;/style&gt;  &#x9;&#xa;&lt;div class = &quot;obj&quot;&gt; &#x9;&#x9;&#xa;Inserir &lt;br&gt; Remedio &lt;br&gt; no estoque &#x9;&#xa;&lt;/div&gt; &lt;/html&gt; "/>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_inserirMouseClicked"/>
+      </Events>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="30" y="110" width="130" height="-1"/>
