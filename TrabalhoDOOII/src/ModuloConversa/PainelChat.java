@@ -1,49 +1,30 @@
 package ModuloConversa;
 
-import java.net.MulticastSocket;
 import TrabalhoDOOII.Main;
-import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.InetAddress;
-import java.net.SocketException;
-import java.net.UnknownHostException;
-import java.nio.charset.StandardCharsets;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 public class PainelChat extends javax.swing.JPanel {
-    private InetAddress srvIP;
-    private int srvPort;
-    private MulticastSocket mtcSock;
     private JSONObject jsonRecebimento;
+    private ControladorChat controlChat;
         
     public PainelChat(JSONObject jsonRecebimento) {
         initComponents();
+        controlChat = new ControladorChat(tf_ip.getText(), tf_port.getText(), jsonRecebimento);
+        
         this.jsonRecebimento = jsonRecebimento;
+        
         lbl_nomeFunc.setText(jsonRecebimento.get("Nome").toString());
-        DadosChat();
-        lerMSG();
+
+        controlChat.lerMSG();
     }
     
-    private void DadosChat(){
-        try {
-            this.srvPort = Integer.parseInt(tf_port.getText());
-            this.srvIP = InetAddress.getByName(tf_ip.getText());
-            mtcSock = new MulticastSocket(srvPort);
-                
-            mtcSock.joinGroup(srvIP); 
+    public void mostrarMSG(){
+        ta_mensagens.setText(ta_mensagens.getText() + "Date: " + jsonRecebimento.get("date") + 
+        "\n" + "Username: " + jsonRecebimento.get("username") + 
+        "\n" + "Time: " + jsonRecebimento.get("time") + 
+        "\n" + "Message: " + jsonRecebimento.get("message") + "\n");
 
-        } catch (UnknownHostException ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage() + " ERRO", "ERRO", JOptionPane.ERROR_MESSAGE);
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage() + " ERRO", "ERRO", JOptionPane.ERROR_MESSAGE);
-        }
+        ta_mensagens.setText(ta_mensagens.getText() + "\n");
     }
 
     @SuppressWarnings("unchecked")
@@ -108,7 +89,7 @@ public class PainelChat extends javax.swing.JPanel {
         add(tf_port, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 80, -1, -1));
 
         lbl_nomeFunc.setText("nomeFunc");
-        add(lbl_nomeFunc, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 90, -1, -1));
+        add(lbl_nomeFunc, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 90, -1, -1));
 
         ta_mensagens.setEditable(false);
         ta_mensagens.setColumns(20);
@@ -137,87 +118,6 @@ public class PainelChat extends javax.swing.JPanel {
         add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 20, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
-    private void lerMSG(){
-        new Thread(){
-            @Override
-            public void run() {
-                String msg;
-                while(true){
-                    try {
-                        byte[] rxData = new byte[65507];
-                        JSONParser jsonP = new JSONParser();
-                        DatagramPacket rxPkt = new DatagramPacket(rxData, rxData.length);
-                                
-                        mtcSock.receive(rxPkt);
-
-                        rxData = rxPkt.getData();
-                        msg = new String(rxData);
-                        msg = msg.substring(0, rxPkt.getLength());
-                        JSONObject json = (JSONObject) jsonP.parse(msg);
-                        
-                        ta_mensagens.setText(ta_mensagens.getText() + "Date: " + json.get("date") + 
-                                "\n" + "Username: " + json.get("username") + 
-                                "\n" + "Time: " + json.get("time") + 
-                                "\n" + "Message: " + json.get("message") + "\n");
-                        
-                        ta_mensagens.setText(ta_mensagens.getText() + "\n");
-                        
-
-                    } catch (IOException ex) {
-                        JOptionPane.showMessageDialog(null, ex.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
-                    } catch (ParseException ex) {
-                        Logger.getLogger(PainelChat.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-            }
-        }.start();
-    }
-    
-    private void enviarMSG(String msg){
-        new Thread(){
-            @Override
-            public void run() {
-                    try {
-                    LocalDateTime agora = LocalDateTime.now();
-                    JSONObject json = new JSONObject();
-                    byte[] txData = new byte[65507];
-                    String txMsg;
-                    
-                    DateTimeFormatter formatterData = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-                    String dataFormatada = formatterData.format(agora);
-
-                    DateTimeFormatter formatterHora = DateTimeFormatter.ofPattern("HH:mm:ss");
-                    String horaFormatada = formatterHora.format(agora);
-                    //=======================
-                    
-                    if(msg.equalsIgnoreCase("<exit>")){
-                        mtcSock.leaveGroup(srvIP);
-                        mtcSock.close();
-                        Main.ctrlBase.opcaoPainelUnitarios(3, jsonRecebimento);
-                    }
-                    
-                    json.put("date", dataFormatada);
-                    json.put("time", horaFormatada);
-                    json.put("username", lbl_nomeFunc.getText());
-                    json.put("message", msg);
-
-                    txMsg = json.toString();
-                    txData = txMsg.getBytes(StandardCharsets.UTF_8);
-                    
-                    DatagramPacket txPkt = new DatagramPacket(txData, txData.length, srvIP, srvPort);
-
-                    mtcSock.send(txPkt);
-                    
-                    
-                } catch (SocketException ex) {
-                    JOptionPane.showMessageDialog(null, ex.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
-                } catch (IOException ex) {
-                    JOptionPane.showMessageDialog(null, ex.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        }.start();
-    }
-    
     private void bt_sairMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_sairMouseClicked
         System.exit(0);
     }//GEN-LAST:event_bt_sairMouseClicked
@@ -229,7 +129,7 @@ public class PainelChat extends javax.swing.JPanel {
     private void btn_enviarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_enviarMouseClicked
         String msg = tf_enviarMensagem.getText();
         tf_enviarMensagem.setText(null);
-        enviarMSG(msg);
+        controlChat.enviarMSG(msg);
     }//GEN-LAST:event_btn_enviarMouseClicked
 
 

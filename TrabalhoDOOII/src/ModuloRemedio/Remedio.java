@@ -1,25 +1,27 @@
 package ModuloRemedio;
 
-import Compartilhado.EntidadeBase;
 import ModuloForn.Fornecedor;
 
-public class Remedio extends EntidadeBase{
-    private Fornecedor forn;
+public class Remedio{
+    private int id;
+    private String nomeForn;
     private String nome;
+    private float preco;
     private int quantidade;
 
-    public Remedio(Fornecedor forn, String nome, int quantidade) {
-        this.forn = forn;
+    public Remedio(String nomeForn, String nome, int quantidade, float preco) {
+        this.nomeForn = nomeForn;
         this.nome = nome;
         this.quantidade = quantidade;
+        this.preco = preco;
     }
 
-    public Fornecedor getForn() {
-        return forn;
+    public String getNomeForn() {
+        return nomeForn;
     }
 
-    public void setForn(Fornecedor forn) {
-        this.forn = forn;
+    public void setNomeForn(String nomeForn) {
+        this.nomeForn = nomeForn;
     }
 
     public String getNome() {
@@ -36,6 +38,19 @@ public class Remedio extends EntidadeBase{
 
     public void setQuantidade(int quantidade) {
         this.quantidade = quantidade;
+    }
+
+    public float getPreco() {
+        return preco;
+    }
+
+    public void setPreco(float preco) {
+        this.preco = preco;
+    }
+
+    @Override
+    public String toString() {
+        return "ID: "+id+" | Nome: "+nome+" | Quantidade: "+quantidade+" | Fornecedor: "+nomeForn;
     }
     
     

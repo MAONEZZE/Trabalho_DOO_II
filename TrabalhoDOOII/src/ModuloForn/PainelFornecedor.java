@@ -19,6 +19,7 @@ public class PainelFornecedor extends javax.swing.JPanel {
     private void initComponents() {
 
         jLabel3 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         bt_sair = new javax.swing.JButton();
         bt_voltar = new javax.swing.JButton();
@@ -32,15 +33,22 @@ public class PainelFornecedor extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         lbl_nomeFunc = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jList1 = new javax.swing.JList<>();
+        jLabel4 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
+        setBackground(new java.awt.Color(152, 180, 233));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel3.setFont(new java.awt.Font("Georgia", 1, 26)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Georgia", 1, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel3.setText("Fornecedor");
-        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, -1, -1));
-        add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 380, 20));
+        jLabel3.setText("<html> \t\n<style> \t\t\n.obj {text-align: center;} \t\n</style>  \t\n<div class = \"obj\"> \t\t\nListagem  <br> Remedios \t\n</div> </html> \n");
+        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 10, 70, 50));
+
+        jButton2.setBackground(new java.awt.Color(0, 0, 51));
+        add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 0, 10, 380));
+        add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 600, 10));
 
         bt_sair.setFont(new java.awt.Font("Georgia", 1, 12)); // NOI18N
         bt_sair.setText("Sair");
@@ -59,7 +67,7 @@ public class PainelFornecedor extends javax.swing.JPanel {
             }
         });
         add(bt_voltar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 340, -1, -1));
-        add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 330, 380, 10));
+        add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 330, 600, 10));
 
         btn_inserir.setFont(new java.awt.Font("Georgia", 1, 10)); // NOI18N
         btn_inserir.setText("<html> \t\n<style> \t\t\n.obj {text-align: center;} \t\n</style>  \t\n<div class = \"obj\"> \t\t\nInserir <br> Remedio <br> no estoque \t\n</div> </html> ");
@@ -118,6 +126,15 @@ public class PainelFornecedor extends javax.swing.JPanel {
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/TrabalhoDOOII/imagens/gifSemAnimacao (1).gif"))); // NOI18N
         add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 110, 130, 130));
 
+        jScrollPane1.setViewportView(jList1);
+
+        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 80, 160, 220));
+
+        jLabel4.setFont(new java.awt.Font("Georgia", 1, 26)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel4.setText("Fornecedor");
+        add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, -1, -1));
+
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/TrabalhoDOOII/imagens/TelaBase.png"))); // NOI18N
         add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
@@ -131,7 +148,7 @@ public class PainelFornecedor extends javax.swing.JPanel {
     }//GEN-LAST:event_bt_voltarMouseClicked
 
     private void btn_inserirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_inserirMouseClicked
-        Main.ctrlBase.chat(jsonRecebimento);
+        Main.ctrlBase.opcaoPainelRemedio(1, jsonRecebimento);
     }//GEN-LAST:event_btn_inserirMouseClicked
 
     private void btn_editarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_editarMouseClicked
@@ -147,7 +164,7 @@ public class PainelFornecedor extends javax.swing.JPanel {
     }//GEN-LAST:event_btn_listarMouseClicked
 
     private void btn_msgFuncMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_msgFuncMouseClicked
-        Main.ctrlBase.opcaoPainelFuncionario(1, jsonRecebimento);
+        Main.ctrlBase.chat(jsonRecebimento);
     }//GEN-LAST:event_btn_msgFuncMouseClicked
 
 
@@ -160,9 +177,13 @@ public class PainelFornecedor extends javax.swing.JPanel {
     private javax.swing.JButton btn_msgFunc;
     private javax.swing.JButton btn_visualizacaoReq;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JList<String> jList1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;

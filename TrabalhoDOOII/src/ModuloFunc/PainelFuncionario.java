@@ -29,7 +29,7 @@ public class PainelFuncionario extends javax.swing.JPanel {
         btn_inserirIMG = new javax.swing.JButton();
         btn_verificarRequisicoes = new javax.swing.JButton();
         lbl_nomeFunc = new javax.swing.JLabel();
-        btn_inserir = new javax.swing.JButton();
+        btn_listar = new javax.swing.JButton();
         btn_remover = new javax.swing.JButton();
         btn_verificarAquisicoes = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
@@ -88,14 +88,14 @@ public class PainelFuncionario extends javax.swing.JPanel {
         lbl_nomeFunc.setText("jLabel2");
         add(lbl_nomeFunc, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 80, -1, -1));
 
-        btn_inserir.setFont(new java.awt.Font("Georgia", 1, 10)); // NOI18N
-        btn_inserir.setText("<html> \t\n<style> \t\t\n.obj {text-align: center;} \t\n</style>  \t\n<div class = \"obj\"> \t\t\nInserir <br> Remedio <br> no estoque \t\n</div> </html> ");
-        btn_inserir.addMouseListener(new java.awt.event.MouseAdapter() {
+        btn_listar.setFont(new java.awt.Font("Georgia", 1, 10)); // NOI18N
+        btn_listar.setText("<html> \t\n<style> \t\t\n.obj {text-align: center;} \t\n</style>  \t\n<div class = \"obj\"> \t\t\nListar <br> Remedios <br> no estoque \t\n</div> </html> ");
+        btn_listar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_inserirMouseClicked(evt);
+                btn_listarMouseClicked(evt);
             }
         });
-        add(btn_inserir, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, 130, -1));
+        add(btn_listar, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, 130, -1));
 
         btn_remover.setFont(new java.awt.Font("Georgia", 1, 10)); // NOI18N
         btn_remover.setText("<html>\n\t<style>\n\t\t.obj {text-align: center;}\n\t</style>\n\n\t<div class = \"obj\">\n\t\tRemover <br> Remedio <br> do estoque\n\t</div>\n</html>\n");
@@ -124,16 +124,16 @@ public class PainelFuncionario extends javax.swing.JPanel {
         Main.ctrlBase.chat(jsonRecebimento);
     }//GEN-LAST:event_btn_msgFornMouseClicked
 
-    private void btn_inserirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_inserirMouseClicked
-        Main.ctrlBase.opcaoPainelFuncionario(1, jsonRecebimento);
-    }//GEN-LAST:event_btn_inserirMouseClicked
+    private void btn_listarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_listarMouseClicked
+        
+    }//GEN-LAST:event_btn_listarMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_sair;
     private javax.swing.JButton bt_voltar;
-    private javax.swing.JButton btn_inserir;
     private javax.swing.JButton btn_inserirIMG;
+    private javax.swing.JButton btn_listar;
     private javax.swing.JButton btn_msgForn;
     private javax.swing.JButton btn_remover;
     private javax.swing.JButton btn_verificarAquisicoes;

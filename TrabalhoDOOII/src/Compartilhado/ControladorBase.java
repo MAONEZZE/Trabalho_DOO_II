@@ -10,7 +10,8 @@ import ModuloCliente.Cliente;
 import ModuloConversa.PainelChat;
 import ModuloForn.Fornecedor;
 import ModuloFunc.Funcionario;
-import ModuloRemedio.CadastroRemedio;
+import ModuloRemedio.PainelCadastroRemedio;
+import ModuloRemedio.Remedio;
 import java.awt.BorderLayout;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -39,7 +40,7 @@ public class ControladorBase implements IControl{
     private PainelFornecedor pForn;
     
     private PainelFuncionario pFunc;
-    private CadastroRemedio pCadRemedio;
+    private PainelCadastroRemedio pCadRemedio;
     
     //########## Comunicação Server ############//
     private InetAddress srvAddrGlobal;
@@ -81,26 +82,13 @@ public class ControladorBase implements IControl{
         this.janela.pack();                             
     }
     
-    public void chat(JSONObject json){
-        this.pChat = new PainelChat(json);
-        mostraTela(this.pChat);
-    }
-    
-    public void opcaoPainelFuncionario(int op, JSONObject json){ // control Funcionario
-        switch(op){
+    public void opcaoPainelRemedio(int op, JSONObject jsonUsuario){ // control Funcionario
+        switch (op) {
             case 1:
-                this.pCadRemedio = new CadastroRemedio();
+                this.pCadRemedio = new PainelCadastroRemedio(jsonUsuario);
                 mostraTela(this.pCadRemedio);
                 break;
-                
-            case 2:
-                break;
-                
-            case 3:
-                break;
-                
-            case 4:
-                break;
+
         }
     }
     
@@ -119,9 +107,6 @@ public class ControladorBase implements IControl{
             case 3:
                 this.pFunc = new PainelFuncionario(json);
                 mostraTela(this.pFunc);
-                break;
-                
-            case 4:
                 break;
         }
     }
@@ -147,14 +132,11 @@ public class ControladorBase implements IControl{
     }
     
     //################ Chat ###############//
-    
-    
-    
-    
-    
-    
-    
-    
+
+    public void chat(JSONObject json){
+        this.pChat = new PainelChat(json);
+        mostraTela(this.pChat);
+    }
     
     //########### envio Servidor ##########//
     public void enviarObjServidor(JSONObject json){
@@ -170,27 +152,33 @@ public class ControladorBase implements IControl{
             
             msgRecebida = this.in.readUTF();
             
-            if(json.get("Comando").equals("Cadastro")){
-                this.pCad.atualizarStatusDeCadastro(msgRecebida);
+            if(json.get("Objeto").equals("Remedio")){
+                this.pCadRemedio.atualizarStatusDeCadastro(msgRecebida);
             }
-            else if(json.get("Comando").equals("Entrar")){
-                
-                JSONParser jsonP = new JSONParser();
-                JSONObject jsonEntrar = (JSONObject) jsonP.parse(msgRecebida);
-                
-                if(jsonEntrar.get("Existente").equals("sim")){
-                    
-                    if(jsonEntrar.get("Tipo").equals("Cliente")){
-                        opcaoPainelUnitarios(1, jsonEntrar);
-                    }
-                    else if(jsonEntrar.get("Tipo").equals("Funcionario")){
-                        opcaoPainelUnitarios(3, jsonEntrar);
-                    }
-                    else if(jsonEntrar.get("Tipo").equals("Fornecedor")){
-                        opcaoPainelUnitarios(2, jsonEntrar);
-                    }
+            else if(json.get("Objeto").equals("Usuario")){
+            
+                if(json.get("Comando").equals("Cadastro")){
+                    this.pCad.atualizarStatusDeCadastro(msgRecebida);
                 }
-            }        
+                else if(json.get("Comando").equals("Entrar")){
+
+                    JSONParser jsonP = new JSONParser();
+                    JSONObject jsonEntrar = (JSONObject) jsonP.parse(msgRecebida);
+
+                    if(jsonEntrar.get("Existente").equals("sim")){
+
+                        if(jsonEntrar.get("Tipo").equals("Cliente")){
+                            opcaoPainelUnitarios(1, jsonEntrar);
+                        }
+                        else if(jsonEntrar.get("Tipo").equals("Funcionario")){
+                            opcaoPainelUnitarios(3, jsonEntrar);
+                        }
+                        else if(jsonEntrar.get("Tipo").equals("Fornecedor")){
+                            opcaoPainelUnitarios(2, jsonEntrar);
+                        }
+                    }
+                }  
+            }
                 
             
                               
@@ -216,6 +204,7 @@ public class ControladorBase implements IControl{
         JSONObject json = new JSONObject();
         
         json.put("Objeto", "Usuario");
+        json.put("ID", user.getId());
         json.put("Nome", user.getNome());
         json.put("CPF", user.getCpf());
         json.put("Senha", user.getSenha());
@@ -260,11 +249,25 @@ public class ControladorBase implements IControl{
                 }
                 
                 criadorJsonCadastro(user, "Cadastro");
+                
+                user.id++;
             }
             
         }catch(InputMismatchException ex){
             JOptionPane.showMessageDialog(null, "Não pode haver campos em branco!", "ERRO", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    public void cadastrarRemedio(Remedio remedio) {
+        JSONObject json = new JSONObject();
+        
+        json.put("Objeto", "Remedio");
+        json.put("Nome Fornecedor", remedio.getNomeForn());
+        json.put("Nome", remedio.getNome());
+        json.put("Preco", remedio.getPreco());
+        json.put("Quantidade", remedio.getQuantidade());
+        
+        enviarObjServidor(json);
     }
     
 }
