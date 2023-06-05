@@ -1,9 +1,14 @@
 package ModuloRemedio;
 
-public class PainelRemoverRemedio extends javax.swing.JPanel {
+import TrabalhoDOOII.Main;
+import org.json.simple.JSONObject;
 
-    public PainelRemoverRemedio() {
+public class PainelRemoverRemedio extends javax.swing.JPanel {
+    private JSONObject jsonUsuario;
+    
+    public PainelRemoverRemedio(JSONObject jsonUsuario) {
         initComponents();
+        this.jsonUsuario = jsonUsuario;
     }
 
     @SuppressWarnings("unchecked")

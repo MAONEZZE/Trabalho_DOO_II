@@ -12,6 +12,8 @@ public class PainelFornecedor extends javax.swing.JPanel {
         this.jsonRecebimento = jsonRecebimento;
         
         lbl_nomeFunc.setText(jsonRecebimento.get("Nome").toString() + "!");
+        
+        carregarRemedios();
     }
 
     @SuppressWarnings("unchecked")
@@ -139,6 +141,10 @@ public class PainelFornecedor extends javax.swing.JPanel {
         add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
+    public void carregarRemedios(){
+        
+    }
+    
     private void bt_sairMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_sairMouseClicked
         System.exit(0);
     }//GEN-LAST:event_bt_sairMouseClicked

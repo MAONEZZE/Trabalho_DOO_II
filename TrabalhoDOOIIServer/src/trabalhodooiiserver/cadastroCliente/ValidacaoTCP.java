@@ -28,11 +28,11 @@ public class ValidacaoTCP extends Thread{
         JSONParser jsonP = new JSONParser();
         Armazenador armC = new Armazenador(clientSock);
         
-        List<String> listaRemedio = armC.carregadorArquivos("Remedios.ser");
-        List<String> listaCliente = armC.carregadorArquivos("Clientes.ser");
-        List<String> listaForn = armC.carregadorArquivos("Fornecedor.ser");
-        List<String> listaFunc = armC.carregadorArquivos("Funcionario.ser");
-        List<String> listaGeral = armC.carregadorArquivos("Geral.ser");
+        List<String> listaRemedio = armC.carregadorArquivos("Remedios.json");
+        List<String> listaCliente = armC.carregadorArquivos("Clientes.json");
+        List<String> listaForn = armC.carregadorArquivos("Fornecedor.json");
+        List<String> listaFunc = armC.carregadorArquivos("Funcionario.json");
+        List<String> listaGeral = armC.carregadorArquivos("Geral.json");
 
         String msgIn;
         
@@ -42,7 +42,10 @@ public class ValidacaoTCP extends Thread{
                 JSONObject json = (JSONObject) jsonP.parse(msgIn);
 
                 if(json.get("Objeto").equals("Remedio")){
+                    
+                    if(json.get("Comando").equals("Cadastro"))
                     armC.serializadorRemedio(listaRemedio);
+
                 }
                 else if(json.get("Objeto").equals("Usuario")){
                     if(json.get("Comando").equals("Entrar")){

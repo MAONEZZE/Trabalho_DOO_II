@@ -4,6 +4,7 @@ import TrabalhoDOOII.Main;
 import org.json.simple.JSONObject;
 
 public class PainelCadastroRemedio extends javax.swing.JPanel {
+    private ControladorRemedio ctrlRemedio;
     private Remedio remedio;
     private JSONObject jsonUsuario;
     
@@ -137,11 +138,12 @@ public class PainelCadastroRemedio extends javax.swing.JPanel {
         String nome = tf_nomeR.getText();
         float preco = Float.parseFloat(tf_preco.getText());
         int quant = Integer.parseInt(tf_quant.getText());
-
+        
+        //trycatch
         remedio = new Remedio(jsonUsuario.get("Nome").toString(), nome, quant, preco);
         limparTF();
 
-        Main.ctrlBase.cadastrarRemedio(remedio);
+        ctrlRemedio.cadastrarRemedio(remedio, "Cadastro");
     }//GEN-LAST:event_btn_cadastrarRMouseClicked
 
 

@@ -18,11 +18,11 @@ public class PainelChat extends javax.swing.JPanel {
         controlChat.lerMSG();
     }
     
-    public void mostrarMSG(){
-        ta_mensagens.setText(ta_mensagens.getText() + "Date: " + jsonRecebimento.get("date") + 
-        "\n" + "Username: " + jsonRecebimento.get("username") + 
-        "\n" + "Time: " + jsonRecebimento.get("time") + 
-        "\n" + "Message: " + jsonRecebimento.get("message") + "\n");
+    public void mostrarMSG(JSONObject json){
+        ta_mensagens.setText(ta_mensagens.getText() + "Date: " + json.get("date") + 
+        "\n" + "Username: " + json.get("username") + 
+        "\n" + "Time: " + json.get("time") + 
+        "\n" + "Message: " + json.get("message") + "\n");
 
         ta_mensagens.setText(ta_mensagens.getText() + "\n");
     }

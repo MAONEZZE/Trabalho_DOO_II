@@ -11,6 +11,9 @@ import ModuloConversa.PainelChat;
 import ModuloForn.Fornecedor;
 import ModuloFunc.Funcionario;
 import ModuloRemedio.PainelCadastroRemedio;
+import ModuloRemedio.PainelEditarRemedio;
+import ModuloRemedio.PainelListagemRemedios;
+import ModuloRemedio.PainelRemoverRemedio;
 import ModuloRemedio.Remedio;
 import java.awt.BorderLayout;
 import java.io.DataInputStream;
@@ -28,20 +31,23 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 public class ControladorBase implements IControl{
+    public static PainelChat pChat;
+    
     private Janela janela;
     private PainelLogin pLog;
     private PainelCadastro pCad;
-    
-    private PainelChat pChat;
-    
     
     private PainelCliente pCliente;
     
     private PainelFornecedor pForn;
     
     private PainelFuncionario pFunc;
-    private PainelCadastroRemedio pCadRemedio;
     
+    private PainelCadastroRemedio pCadRemedio;
+    private PainelEditarRemedio pEditRemedio;
+    private PainelRemoverRemedio pRemovRemedio;
+    private PainelListagemRemedios pListRemedio;
+
     //########## Comunicação Server ############//
     private InetAddress srvAddrGlobal;
     private int srvPortGlobal;
@@ -86,6 +92,18 @@ public class ControladorBase implements IControl{
         switch (op) {
             case 1:
                 this.pCadRemedio = new PainelCadastroRemedio(jsonUsuario);
+                mostraTela(this.pCadRemedio);
+                break;
+            case 2:
+                this.pEditRemedio = new PainelEditarRemedio(jsonUsuario);
+                mostraTela(this.pCadRemedio);
+                break;
+            case 3:
+                this.pRemovRemedio = new PainelRemoverRemedio(jsonUsuario);
+                mostraTela(this.pCadRemedio);
+                break;
+            case 4:
+                this.pListRemedio = new PainelListagemRemedios(jsonUsuario);
                 mostraTela(this.pCadRemedio);
                 break;
 
@@ -258,16 +276,4 @@ public class ControladorBase implements IControl{
         }
     }
 
-    public void cadastrarRemedio(Remedio remedio) {
-        JSONObject json = new JSONObject();
-        
-        json.put("Objeto", "Remedio");
-        json.put("Nome Fornecedor", remedio.getNomeForn());
-        json.put("Nome", remedio.getNome());
-        json.put("Preco", remedio.getPreco());
-        json.put("Quantidade", remedio.getQuantidade());
-        
-        enviarObjServidor(json);
-    }
-    
 }

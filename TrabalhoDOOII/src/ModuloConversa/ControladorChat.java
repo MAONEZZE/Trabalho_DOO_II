@@ -10,17 +10,13 @@ import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 public class ControladorChat{
-    private PainelChat pChat;
     private InetAddress srvIP;
-    private ControladorChat controlChat;
     private int srvPort;
     private MulticastSocket mtcSock;
     private JSONObject jsonRecebimento;
@@ -28,6 +24,8 @@ public class ControladorChat{
     public ControladorChat(String srvIP, String srvPort, JSONObject jsonRecebimento){
         dadosChat(srvIP, srvPort);
         this.jsonRecebimento = jsonRecebimento;
+        
+        lerMSG();
     }
     
     public void dadosChat(String srvIP, String srvPort){
@@ -47,6 +45,7 @@ public class ControladorChat{
     
     public void lerMSG(){
         new Thread(){
+            
             @Override
             public void run() {
                 String msg;
@@ -62,9 +61,8 @@ public class ControladorChat{
                         msg = new String(rxData);
                         msg = msg.substring(0, rxPkt.getLength());
                         JSONObject json = (JSONObject) jsonP.parse(msg);
-                        
-                        pChat = new PainelChat(json);
-                        pChat.mostrarMSG();
+
+                        Main.ctrlBase.pChat.mostrarMSG(json);
 
                     } catch (IOException ex) {
                         JOptionPane.showMessageDialog(null, ex.getMessage() + " ERRO", "ERRO",JOptionPane.ERROR_MESSAGE);
@@ -78,6 +76,7 @@ public class ControladorChat{
     
     public void enviarMSG(String msg){
         new Thread(){
+            
             @Override
             public void run() {
                     try {
@@ -101,10 +100,11 @@ public class ControladorChat{
                     
                     json.put("date", dataFormatada);
                     json.put("time", horaFormatada);
-                    json.put("username", jsonRecebimento.get("Nome"));
+                    json.put("username", jsonRecebimento.get("Nome").toString());
                     json.put("message", msg);
 
                     txMsg = json.toString();
+
                     txData = txMsg.getBytes(StandardCharsets.UTF_8);
                     
                     DatagramPacket txPkt = new DatagramPacket(txData, txData.length, srvIP, srvPort);

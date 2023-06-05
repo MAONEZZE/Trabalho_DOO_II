@@ -7,6 +7,7 @@ import javax.swing.JOptionPane;
 
 public class Main {
     public static ControladorBase ctrlBase;
+    
 /*Controle de estoque, com funcionario, cliente e fornecedor 
  * RepositorioBase, EntidadeBase;
  * Classes Pessoa {Cliente, Fornecedor, Funcionario}, Remedio, Estoque, 

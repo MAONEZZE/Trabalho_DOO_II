@@ -90,31 +90,31 @@ public class Armazenador {
     }
     
     public void serializadorRemedio(List<String> listaRemedio){
-        this.nomeArquivo = "Remedios.ser";
+        this.nomeArquivo = "Remedios.json";
 
         serializador(listaRemedio, "Remedio");
     }
     
     public void serializadorCliente(List<String> listaCliente){ //passar a lista por aqui e so serializar dps
-        this.nomeArquivo = "Clientes.ser";//criar o arquivo aqui antes
+        this.nomeArquivo = "Clientes.json";//criar o arquivo aqui antes
 
         serializador(listaCliente, "Cliente");
     }
     
     public void serializadorFornecedor(List<String> listaForn){
-        this.nomeArquivo = "Fornecedor.ser";
+        this.nomeArquivo = "Fornecedor.json";
 
         serializador(listaForn, "Fornecedor");
     }
     
     public void serializadorFuncionario(List<String> listaFunc){
-        this.nomeArquivo = "Funcionario.ser";
+        this.nomeArquivo = "Funcionario.json";
 
         serializador(listaFunc, "Funcionario");
     }
     
     public void serializadorGeral(List<String> listaGeral){
-        this.nomeArquivo = "Geral.ser";
+        this.nomeArquivo = "Geral.json";
 
         serializador(listaGeral, "Geral");
     }
