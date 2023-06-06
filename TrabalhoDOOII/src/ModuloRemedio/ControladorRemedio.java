@@ -6,7 +6,11 @@ import java.util.ArrayList;
 import org.json.simple.JSONObject;
 
 public class ControladorRemedio{
-    List<Remedio> listaRemedio = new ArrayList();
+    private List<Remedio> listaRemedio = new ArrayList();
+    
+    public void atualizarListMemoria(String listaStr){
+        
+    }
     
     public void cadastrarRemedio(Remedio remedio, String comando) {
         JSONObject json = new JSONObject();
@@ -19,10 +23,6 @@ public class ControladorRemedio{
         json.put("Quantidade", remedio.getQuantidade());
         
         Main.ctrlBase.enviarObjServidor(json);
-    }
-    
-    public void listarRemedio(){
-        
     }
     
     public void removerRemedio(){

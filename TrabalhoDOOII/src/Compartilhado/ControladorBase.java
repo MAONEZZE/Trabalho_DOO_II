@@ -12,9 +12,7 @@ import ModuloForn.Fornecedor;
 import ModuloFunc.Funcionario;
 import ModuloRemedio.PainelCadastroRemedio;
 import ModuloRemedio.PainelEditarRemedio;
-import ModuloRemedio.PainelListagemRemedios;
 import ModuloRemedio.PainelRemoverRemedio;
-import ModuloRemedio.Remedio;
 import java.awt.BorderLayout;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -46,7 +44,6 @@ public class ControladorBase implements IControl{
     private PainelCadastroRemedio pCadRemedio;
     private PainelEditarRemedio pEditRemedio;
     private PainelRemoverRemedio pRemovRemedio;
-    private PainelListagemRemedios pListRemedio;
 
     //########## Comunicação Server ############//
     private InetAddress srvAddrGlobal;
@@ -102,11 +99,6 @@ public class ControladorBase implements IControl{
                 this.pRemovRemedio = new PainelRemoverRemedio(jsonUsuario);
                 mostraTela(this.pCadRemedio);
                 break;
-            case 4:
-                this.pListRemedio = new PainelListagemRemedios(jsonUsuario);
-                mostraTela(this.pCadRemedio);
-                break;
-
         }
     }
     
@@ -156,6 +148,44 @@ public class ControladorBase implements IControl{
         mostraTela(this.pChat);
     }
     
+    //########### area de objetos ##########//
+    private void areaRemedio(JSONObject json, String msgRecebida){
+        if(json.get("Comando").equals("Cadastro")){
+            this.pCadRemedio.atualizarStatusDeCadastro(msgRecebida);
+        }
+        else if(json.get("Comando").equals("CarregarMemoria")){
+            
+        }
+    }
+    
+    private void areaUsuario(JSONObject json, String msgRecebida){
+        try{
+            if(json.get("Comando").equals("Cadastro")){
+                this.pCad.atualizarStatusDeCadastro(msgRecebida);
+            }
+            else if(json.get("Comando").equals("Entrar")){
+
+                JSONParser jsonP = new JSONParser();
+                JSONObject jsonEntrar = (JSONObject) jsonP.parse(msgRecebida);
+
+                if(jsonEntrar.get("Existente").equals("sim")){
+
+                    if(jsonEntrar.get("Tipo").equals("Cliente")){
+                        opcaoPainelUnitarios(1, jsonEntrar);
+                    }
+                    else if(jsonEntrar.get("Tipo").equals("Funcionario")){
+                        opcaoPainelUnitarios(3, jsonEntrar);
+                    }
+                    else if(jsonEntrar.get("Tipo").equals("Fornecedor")){
+                        opcaoPainelUnitarios(2, jsonEntrar);
+                    }
+                }
+            }  
+        } catch (ParseException ex) {
+                Logger.getLogger(ControladorBase.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     //########### envio Servidor ##########//
     public void enviarObjServidor(JSONObject json){
         try {
@@ -171,39 +201,14 @@ public class ControladorBase implements IControl{
             msgRecebida = this.in.readUTF();
             
             if(json.get("Objeto").equals("Remedio")){
-                this.pCadRemedio.atualizarStatusDeCadastro(msgRecebida);
+                areaRemedio(json, msgRecebida);
             }
             else if(json.get("Objeto").equals("Usuario")){
-            
-                if(json.get("Comando").equals("Cadastro")){
-                    this.pCad.atualizarStatusDeCadastro(msgRecebida);
-                }
-                else if(json.get("Comando").equals("Entrar")){
-
-                    JSONParser jsonP = new JSONParser();
-                    JSONObject jsonEntrar = (JSONObject) jsonP.parse(msgRecebida);
-
-                    if(jsonEntrar.get("Existente").equals("sim")){
-
-                        if(jsonEntrar.get("Tipo").equals("Cliente")){
-                            opcaoPainelUnitarios(1, jsonEntrar);
-                        }
-                        else if(jsonEntrar.get("Tipo").equals("Funcionario")){
-                            opcaoPainelUnitarios(3, jsonEntrar);
-                        }
-                        else if(jsonEntrar.get("Tipo").equals("Fornecedor")){
-                            opcaoPainelUnitarios(2, jsonEntrar);
-                        }
-                    }
-                }  
+                areaUsuario(json, msgRecebida);
             }
-                
-            
                               
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage() + "Erro no envio da mensagem", "ERRO", JOptionPane.ERROR_MESSAGE);
-        } catch (ParseException ex) {
-            Logger.getLogger(ControladorBase.class.getName()).log(Level.SEVERE, null, ex);
         } 
     }
     

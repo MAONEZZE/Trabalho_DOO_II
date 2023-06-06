@@ -43,8 +43,12 @@ public class ValidacaoTCP extends Thread{
 
                 if(json.get("Objeto").equals("Remedio")){
                     
-                    if(json.get("Comando").equals("Cadastro"))
-                    armC.serializadorRemedio(listaRemedio);
+                    if(json.get("Comando").equals("Cadastro")){
+                        armC.serializadorRemedio(listaRemedio);
+                    }
+                    else if(json.get("Comando").equals("CarregarMemoria")){
+                        armC.retornarLista(listaRemedio);
+                    }
 
                 }
                 else if(json.get("Objeto").equals("Usuario")){

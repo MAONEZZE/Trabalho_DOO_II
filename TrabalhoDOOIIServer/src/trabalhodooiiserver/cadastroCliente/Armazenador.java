@@ -11,6 +11,8 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -117,6 +119,22 @@ public class Armazenador {
         this.nomeArquivo = "Geral.json";
 
         serializador(listaGeral, "Geral");
+    }
+    
+    public void retornarLista(List<String> remedios){
+        try {
+            out = new DataOutputStream(clientSock.getOutputStream());
+            
+            if(remedios.isEmpty()){
+                out.writeUTF(new ArrayList().toString());
+            }
+            else{
+                out.writeUTF(remedios.toString());
+            }
+            
+        } catch (IOException ex) {
+            Logger.getLogger(Armazenador.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public void verificadorUsuario(String cpf, String senha, List<String> listaGeral){ 
