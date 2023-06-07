@@ -1,5 +1,6 @@
 package TrabalhoDOOII;
 
+import ModuloRemedio.AtualizadorListaRemedio;
 import Compartilhado.ControladorBase;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -22,13 +23,14 @@ public class Main {
             try {
                 srvAddr = InetAddress.getByName(args[0]);
                 srvPort = Integer.parseInt(args[1]);
+                
                 ctrlBase = new ControladorBase(srvAddr, srvPort);
+                
+                ctrlBase.IniciarPaineis();
             } catch (UnknownHostException ex) {
                 JOptionPane.showMessageDialog(null, "IP inválido", "ERRO", JOptionPane.ERROR_MESSAGE);
             }
         }
-
-        ctrlBase.start();
     }
     
 }

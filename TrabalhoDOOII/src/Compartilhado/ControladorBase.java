@@ -20,8 +20,6 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.InputMismatchException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import org.json.simple.JSONObject;
@@ -52,15 +50,6 @@ public class ControladorBase implements IControl{
     private DataOutputStream out;
     private DataInputStream in;
     
-    private void inicializarSock(){
-        try {
-            sock = new Socket(srvAddrGlobal, srvPortGlobal);
-            
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage()+"Erro na implementação do socket", "ERRO", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-    
     //########## Janelas ############//
     public ControladorBase(InetAddress srvAddr, int srvPort){
         srvAddrGlobal = srvAddr;
@@ -72,7 +61,16 @@ public class ControladorBase implements IControl{
         inicializarSock();
     }
     
-    public void start(){
+    private void inicializarSock(){
+        try {
+            sock = new Socket(srvAddrGlobal, srvPortGlobal);
+            
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage()+"Erro na implementação do socket", "ERRO", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    public void IniciarPaineis(){
         this.pLog = new PainelLogin();  //Incializa o painel da tela de cadastro.
         this.mostraTela(this.pLog); 
         
@@ -132,12 +130,6 @@ public class ControladorBase implements IControl{
                 this.pCad = new PainelCadastro();
                 mostraTela(this.pCad);
                 break;
-                
-            case 3:
-                break;
-                
-            case 4:
-                break;
         }
     }
     
@@ -152,9 +144,6 @@ public class ControladorBase implements IControl{
     private void areaRemedio(JSONObject json, String msgRecebida){
         if(json.get("Comando").equals("Cadastro")){
             this.pCadRemedio.atualizarStatusDeCadastro(msgRecebida);
-        }
-        else if(json.get("Comando").equals("CarregarMemoria")){
-            
         }
     }
     
@@ -182,7 +171,7 @@ public class ControladorBase implements IControl{
                 }
             }  
         } catch (ParseException ex) {
-                Logger.getLogger(ControladorBase.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, ex.getMessage() + " ERRO", "ERRO",JOptionPane.ERROR_MESSAGE);
         }
     }
     

@@ -1,4 +1,4 @@
-package trabalhodooiiserver.cadastroCliente;
+package ArmazenadorObjetos;
 
 import java.io.DataOutputStream;
 import java.io.File;
@@ -56,13 +56,10 @@ public class Armazenador {
             
         } catch (FileNotFoundException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage() + ", Arquivo não encontrado", "ERRO", JOptionPane.ERROR_MESSAGE);
-            ex.printStackTrace();
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage() + ", ERRO", "ERRO", JOptionPane.ERROR_MESSAGE);
-            ex.printStackTrace();
         } catch (ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage() + ", Erro na Desserialização", "ERRO", JOptionPane.ERROR_MESSAGE);
-            ex.printStackTrace();
         } 
         
         return null;
@@ -87,15 +84,15 @@ public class Armazenador {
         } catch (FileNotFoundException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage() + ", Arquivo não encontrado", "ERRO", JOptionPane.ERROR_MESSAGE);
         } catch (IOException ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage() + "ERRO", "ERRO",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, ex.getMessage() + " ERRO", "ERRO",JOptionPane.ERROR_MESSAGE);
         }
     }
     
-    public void serializadorRemedio(List<String> listaRemedio){
-        this.nomeArquivo = "Remedios.json";
-
-        serializador(listaRemedio, "Remedio");
-    }
+//    public void serializadorRemedio(List<String> listaRemedio){
+//        this.nomeArquivo = "Remedios.json";
+//
+//        serializador(listaRemedio, "Remedio");
+//    }
     
     public void serializadorCliente(List<String> listaCliente){ //passar a lista por aqui e so serializar dps
         this.nomeArquivo = "Clientes.json";//criar o arquivo aqui antes
@@ -121,21 +118,21 @@ public class Armazenador {
         serializador(listaGeral, "Geral");
     }
     
-    public void retornarLista(List<String> remedios){
-        try {
-            out = new DataOutputStream(clientSock.getOutputStream());
-            
-            if(remedios.isEmpty()){
-                out.writeUTF(new ArrayList().toString());
-            }
-            else{
-                out.writeUTF(remedios.toString());
-            }
-            
-        } catch (IOException ex) {
-            Logger.getLogger(Armazenador.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+//    public void retornarLista(List<String> remedios){
+//        try {
+//            out = new DataOutputStream(clientSock.getOutputStream());
+//            
+//            if(remedios.isEmpty()){
+//                out.writeUTF(new ArrayList().toString());
+//            }
+//            else{
+//                out.writeUTF(remedios.toString());
+//            }
+//            
+//        } catch (IOException ex) {
+//            JOptionPane.showMessageDialog(null, ex.getMessage() + " ERRO", "ERRO",JOptionPane.ERROR_MESSAGE);
+//        }
+//    }
     
     public void verificadorUsuario(String cpf, String senha, List<String> listaGeral){ 
         JSONParser jsonP = new JSONParser();

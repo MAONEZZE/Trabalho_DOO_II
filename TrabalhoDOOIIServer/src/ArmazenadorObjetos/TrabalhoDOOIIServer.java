@@ -1,4 +1,4 @@
-package trabalhodooiiserver.cadastroCliente;
+package ArmazenadorObjetos;
 
 import java.io.IOException;
 import java.net.ServerSocket;

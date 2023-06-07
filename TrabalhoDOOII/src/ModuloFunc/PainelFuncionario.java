@@ -1,9 +1,11 @@
 package ModuloFunc;
 
 import TrabalhoDOOII.Main;
+import javax.swing.DefaultListModel;
 import org.json.simple.JSONObject;
 
 public class PainelFuncionario extends javax.swing.JPanel {
+    private DefaultListModel model;
     private JSONObject jsonRecebimento;
     
     public PainelFuncionario(JSONObject jsonRecebimento) {
@@ -11,12 +13,12 @@ public class PainelFuncionario extends javax.swing.JPanel {
         
         this.jsonRecebimento = jsonRecebimento;
         
-        carregarListaRemedio();
+        carregarRemedios();
         
         lbl_nomeFunc.setText(jsonRecebimento.get("Nome").toString() + "!");
     }
     
-    private void carregarListaRemedio(){
+    public void carregarRemedios(){
         
     }
 

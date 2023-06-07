@@ -1,4 +1,4 @@
-package trabalhodooiiserver.cadastroCliente;
+package ArmazenadorObjetos;
 
 import java.io.DataInputStream;
 import java.io.IOException;
@@ -28,7 +28,7 @@ public class ValidacaoTCP extends Thread{
         JSONParser jsonP = new JSONParser();
         Armazenador armC = new Armazenador(clientSock);
         
-        List<String> listaRemedio = armC.carregadorArquivos("Remedios.json");
+        //List<String> listaRemedio = armC.carregadorArquivos("Remedios.json");
         List<String> listaCliente = armC.carregadorArquivos("Clientes.json");
         List<String> listaForn = armC.carregadorArquivos("Fornecedor.json");
         List<String> listaFunc = armC.carregadorArquivos("Funcionario.json");
@@ -41,17 +41,17 @@ public class ValidacaoTCP extends Thread{
                 msgIn = in.readUTF();
                 JSONObject json = (JSONObject) jsonP.parse(msgIn);
 
-                if(json.get("Objeto").equals("Remedio")){
-                    
-                    if(json.get("Comando").equals("Cadastro")){
-                        armC.serializadorRemedio(listaRemedio);
-                    }
-                    else if(json.get("Comando").equals("CarregarMemoria")){
-                        armC.retornarLista(listaRemedio);
-                    }
-
-                }
-                else if(json.get("Objeto").equals("Usuario")){
+//                if(json.get("Objeto").equals("Remedio")){
+//                    
+//                    if(json.get("Comando").equals("Cadastro")){
+//                        armC.serializadorRemedio(listaRemedio);
+//                    }
+//                    else if(json.get("Comando").equals("CarregarMemoria")){
+//                        armC.retornarLista(listaRemedio);
+//                    }
+//
+//                }
+//                else if(json.get("Objeto").equals("Usuario")){
                     if(json.get("Comando").equals("Entrar")){
                         armC.verificadorUsuario(json.get("CPF").toString(), json.get("Senha").toString(), listaGeral);
                     }
@@ -74,12 +74,12 @@ public class ValidacaoTCP extends Thread{
 
                         armC.serializadorGeral(listaGeral);
                     }
-                }
+                //}
             }
         } catch (IOException ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage() + " servidor1", "ERRO", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, ex.getMessage() + " ERRO", "ERRO", JOptionPane.ERROR_MESSAGE);
         } catch (ParseException ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage() + " servidor", "ERRO", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, ex.getMessage() + " ERRO", "ERRO", JOptionPane.ERROR_MESSAGE);
         } 
     }
 }

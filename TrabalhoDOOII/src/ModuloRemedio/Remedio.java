@@ -1,8 +1,8 @@
 package ModuloRemedio;
 
-import ModuloForn.Fornecedor;
+import java.io.Serializable;
 
-public class Remedio{
+public class Remedio implements Serializable{
     private int id;
     private String nomeForn;
     private String nome;

@@ -2,13 +2,19 @@ package ModuloRemedio;
 
 import TrabalhoDOOII.Main;
 import java.util.List;
-import java.util.ArrayList;
 import org.json.simple.JSONObject;
 
-public class ControladorRemedio{
-    private List<Remedio> listaRemedio = new ArrayList();
+public class ControladorRemedio{//Serializar a lista nesse projeto mesmo, sempre 
+                                //carregar a lista primeiro e serializar a cada ação (Ex: editar, excluir e inserir)
+    private List<Remedio> listaRemedio;
+    private AtualizadorListaRemedio atualizador;
     
-    public void atualizarListMemoria(String listaStr){
+    public ControladorRemedio(){
+
+        listaRemedio = carregarListaMemoria();
+    }
+
+    private void carregarListaMemoria(){
         
     }
     
