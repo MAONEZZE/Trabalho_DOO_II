@@ -5,17 +5,17 @@ import org.json.simple.JSONObject;
 
 public class PainelChat extends javax.swing.JPanel {
     private JSONObject jsonRecebimento;
-    private ControladorChat controlChat;
+    private ControladorChat ctrlChat;
         
     public PainelChat(JSONObject jsonRecebimento) {
         initComponents();
-        controlChat = new ControladorChat(tf_ip.getText(), tf_port.getText(), jsonRecebimento);
+        ctrlChat = new ControladorChat(tf_ip.getText(), tf_port.getText(), jsonRecebimento);
         
         this.jsonRecebimento = jsonRecebimento;
         
         lbl_nomeFunc.setText(jsonRecebimento.get("Nome").toString());
 
-        controlChat.lerMSG();
+        ctrlChat.lerMSG();
     }
     
     public void mostrarMSG(JSONObject json){
@@ -86,7 +86,7 @@ public class PainelChat extends javax.swing.JPanel {
 
         tf_port.setEditable(false);
         tf_port.setText("40000");
-        add(tf_port, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 80, -1, -1));
+        add(tf_port, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 80, -1, -1));
 
         lbl_nomeFunc.setText("nomeFunc");
         add(lbl_nomeFunc, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 90, -1, -1));
@@ -102,7 +102,7 @@ public class PainelChat extends javax.swing.JPanel {
         add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 20, 20));
 
         jLabel5.setText("Porta:");
-        add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 80, 30, 20));
+        add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 80, 40, 20));
 
         jLabel6.setFont(new java.awt.Font("Georgia", 1, 26)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(51, 51, 51));
@@ -119,17 +119,27 @@ public class PainelChat extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void bt_sairMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_sairMouseClicked
+        ctrlChat.closeConnection();
         System.exit(0);
     }//GEN-LAST:event_bt_sairMouseClicked
 
     private void bt_voltarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_voltarMouseClicked
-        Main.ctrlBase.opcaoPaineisPrincipais(1);
+        ctrlChat.closeConnection();
+        if(jsonRecebimento.get("Tipo").equals("Cliente")){
+            Main.ctrlBase.opcaoPainelUnitarios(1, jsonRecebimento);
+        }
+        else if(jsonRecebimento.get("Tipo").equals("Funcionario")){
+            Main.ctrlBase.opcaoPainelUnitarios(3, jsonRecebimento);
+        }
+        else if(jsonRecebimento.get("Tipo").equals("Fornecedor")){
+            Main.ctrlBase.opcaoPainelUnitarios(2, jsonRecebimento);
+        }
     }//GEN-LAST:event_bt_voltarMouseClicked
 
     private void btn_enviarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_enviarMouseClicked
         String msg = tf_enviarMensagem.getText();
         tf_enviarMensagem.setText(null);
-        controlChat.enviarMSG(msg);
+        ctrlChat.enviarMSG(msg);
     }//GEN-LAST:event_btn_enviarMouseClicked
 
 

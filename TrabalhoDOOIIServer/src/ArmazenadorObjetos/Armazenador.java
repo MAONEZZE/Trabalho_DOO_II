@@ -11,8 +11,6 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -77,7 +75,7 @@ public class Armazenador {
             if(!mostrarUsuario.equals("Geral")){
                 //Enviar para o cliente que o cliente foi cadastrado
                 out = new DataOutputStream(clientSock.getOutputStream());
-                out.writeUTF(mostrarUsuario + " cadastrado no servidor");
+                out.writeUTF(mostrarUsuario + " cadastrado no servidor com sucesso!");
             }
             
 
@@ -87,12 +85,6 @@ public class Armazenador {
             JOptionPane.showMessageDialog(null, ex.getMessage() + " ERRO", "ERRO",JOptionPane.ERROR_MESSAGE);
         }
     }
-    
-//    public void serializadorRemedio(List<String> listaRemedio){
-//        this.nomeArquivo = "Remedios.json";
-//
-//        serializador(listaRemedio, "Remedio");
-//    }
     
     public void serializadorCliente(List<String> listaCliente){ //passar a lista por aqui e so serializar dps
         this.nomeArquivo = "Clientes.json";//criar o arquivo aqui antes
@@ -117,50 +109,46 @@ public class Armazenador {
 
         serializador(listaGeral, "Geral");
     }
-    
-//    public void retornarLista(List<String> remedios){
-//        try {
-//            out = new DataOutputStream(clientSock.getOutputStream());
-//            
-//            if(remedios.isEmpty()){
-//                out.writeUTF(new ArrayList().toString());
-//            }
-//            else{
-//                out.writeUTF(remedios.toString());
-//            }
-//            
-//        } catch (IOException ex) {
-//            JOptionPane.showMessageDialog(null, ex.getMessage() + " ERRO", "ERRO",JOptionPane.ERROR_MESSAGE);
-//        }
-//    }
-    
+
     public void verificadorUsuario(String cpf, String senha, List<String> listaGeral){ 
         JSONParser jsonP = new JSONParser();
+        boolean verificador = false;
+        JSONObject json = null;
         
-        for(String user: listaGeral){
-            try {
-                JSONObject json = (JSONObject) jsonP.parse(user);
-                
-                if(json.get("CPF").equals(cpf) && json.get("Senha").equals(senha)){
-                    out = new DataOutputStream(clientSock.getOutputStream());
-                   
-                    json.put("Nome", json.get("Nome"));
-                    json.put("CPF", json.get("CPF"));
-                    json.put("Telefone", json.get("Telefone"));
-                    json.put("Tipo", json.get("Tipo"));
-                    
-                    json.put("Existente", "sim");
-                    
-                    out.writeUTF(json.toString());
-                    break;
+        try {
+            out = new DataOutputStream(clientSock.getOutputStream());
+            
+            if(listaGeral.size() > 0){
+                for(String user: listaGeral){
+                    json = (JSONObject) jsonP.parse(user);
+
+                    if(json.get("CPF").equals(cpf) && json.get("Senha").equals(senha)){
+                        json.put("Nome", json.get("Nome"));
+                        json.put("CPF", json.get("CPF"));
+                        json.put("Telefone", json.get("Telefone"));
+                        json.put("Tipo", json.get("Tipo"));
+
+                        json.put("Existente", "sim");
+
+                        verificador = true;
+                        break;
+                    }
                 }
                 
-            } catch (IOException ex) {
-                JOptionPane.showMessageDialog(null, ex.getMessage() + "ERRO", "ERRO",JOptionPane.ERROR_MESSAGE);
-            } catch (ParseException ex) {
-                JOptionPane.showMessageDialog(null, ex.getMessage() + "ERRO", "ERRO",JOptionPane.ERROR_MESSAGE);
+                if(verificador == false){
+                    json.put("Existente", "nenhum");
+                }
             }
-        }
+            else{
+                json.put("Existente", "nao");
+            }
+            
+            out.writeUTF(json.toString());
         
+        } catch (ParseException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage() + "ERRO", "ERRO",JOptionPane.ERROR_MESSAGE);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage() + "ERRO", "ERRO",JOptionPane.ERROR_MESSAGE);
+        }
     }
 }

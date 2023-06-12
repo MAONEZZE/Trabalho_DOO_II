@@ -1,6 +1,7 @@
 package Main.janelasPrincipais;
 
 import TrabalhoDOOII.Main;
+import javax.swing.JOptionPane;
 
 public class PainelCadastro extends javax.swing.JPanel {
     private int i = 0;
@@ -194,9 +195,13 @@ public class PainelCadastro extends javax.swing.JPanel {
         String cpf = formTf_cpf.getText();
         String telefone = formTf_telefone.getText();
         
-        limparTF();
+        if(Main.ctrlBase.cadastrarObj(nome, senha, telefone, data, cpf, tipoUser)){
+            limparTF();
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Não pode haver campos em branco!", "ERRO", JOptionPane.ERROR_MESSAGE);
+        }
         
-        Main.ctrlBase.cadastrarObj(nome, senha, telefone, data, cpf, tipoUser);
     }//GEN-LAST:event_btn_cadastrarUserMouseClicked
 
     private void btn_verSenhaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_verSenhaMouseClicked

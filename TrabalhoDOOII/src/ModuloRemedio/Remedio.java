@@ -1,8 +1,10 @@
 package ModuloRemedio;
 
 import java.io.Serializable;
+import java.util.Random;
 
 public class Remedio implements Serializable{
+    private Random rand = new Random();
     private int id;
     private String nomeForn;
     private String nome;
@@ -10,6 +12,7 @@ public class Remedio implements Serializable{
     private int quantidade;
 
     public Remedio(String nomeForn, String nome, int quantidade, float preco) {
+        this.id = rand.nextInt(0, 30);
         this.nomeForn = nomeForn;
         this.nome = nome;
         this.quantidade = quantidade;

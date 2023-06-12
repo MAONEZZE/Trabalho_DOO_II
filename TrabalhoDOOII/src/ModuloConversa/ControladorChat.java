@@ -10,6 +10,8 @@ import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -26,6 +28,14 @@ public class ControladorChat{
         this.jsonRecebimento = jsonRecebimento;
         
         lerMSG();
+    }
+    
+    public void closeConnection(){
+        try {
+            mtcSock.leaveGroup(this.srvIP);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage() + " ERRO", "ERRO", JOptionPane.ERROR_MESSAGE);
+        }
     }
     
     public void dadosChat(String srvIP, String srvPort){

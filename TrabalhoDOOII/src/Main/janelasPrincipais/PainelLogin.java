@@ -1,12 +1,6 @@
 package Main.janelasPrincipais;
 
-import org.json.simple.parser.JSONParser;
-import org.json.simple.JSONObject;
 import TrabalhoDOOII.Main;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JOptionPane;
-import org.json.simple.parser.ParseException;
 
 public class PainelLogin extends javax.swing.JPanel {
 
@@ -112,8 +106,7 @@ public class PainelLogin extends javax.swing.JPanel {
         String comando = "Entrar";
         
         Main.ctrlBase.criadorJsonEntrar(cpf, senha, comando);
-        
-        // voltar uma mensagem do servidor e e dependendo de qual for a msg ele muda de tela
+
     }//GEN-LAST:event_btn_entrarMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -1,13 +1,14 @@
 package TrabalhoDOOII;
 
-import ModuloRemedio.AtualizadorListaRemedio;
 import Compartilhado.ControladorBase;
+import ModuloRemedio.ControladorRemedio;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import javax.swing.JOptionPane;
 
 public class Main {
     public static ControladorBase ctrlBase;
+    public static ControladorRemedio ctrlRemedio = new ControladorRemedio();
     
 /*Controle de estoque, com funcionario, cliente e fornecedor 
  * RepositorioBase, EntidadeBase;

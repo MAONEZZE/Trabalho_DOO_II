@@ -12,7 +12,7 @@ import ModuloForn.Fornecedor;
 import ModuloFunc.Funcionario;
 import ModuloRemedio.PainelCadastroRemedio;
 import ModuloRemedio.PainelEditarRemedio;
-import ModuloRemedio.PainelRemoverRemedio;
+import ModuloRemedio.Remedio;
 import java.awt.BorderLayout;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -25,23 +25,22 @@ import javax.swing.JPanel;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import TrabalhoDOOII.Main;
 
 public class ControladorBase implements IControl{
     public static PainelChat pChat;
     
+    public PainelFuncionario pFunc;
+    public PainelFornecedor pForn;
+    
     private Janela janela;
     private PainelLogin pLog;
     private PainelCadastro pCad;
-    
+ 
     private PainelCliente pCliente;
-    
-    private PainelFornecedor pForn;
-    
-    private PainelFuncionario pFunc;
     
     private PainelCadastroRemedio pCadRemedio;
     private PainelEditarRemedio pEditRemedio;
-    private PainelRemoverRemedio pRemovRemedio;
 
     //########## Comunicação Server ############//
     private InetAddress srvAddrGlobal;
@@ -83,20 +82,17 @@ public class ControladorBase implements IControl{
         this.janela.pack();                             
     }
     
-    public void opcaoPainelRemedio(int op, JSONObject jsonUsuario){ // control Funcionario
+    public void opcaoPainelRemedio(int op, JSONObject jsonUsuario, Remedio remedio){ // control Funcionario
         switch (op) {
             case 1:
                 this.pCadRemedio = new PainelCadastroRemedio(jsonUsuario);
                 mostraTela(this.pCadRemedio);
                 break;
             case 2:
-                this.pEditRemedio = new PainelEditarRemedio(jsonUsuario);
-                mostraTela(this.pCadRemedio);
+                this.pEditRemedio = new PainelEditarRemedio(jsonUsuario, remedio);
+                mostraTela(this.pEditRemedio);
                 break;
-            case 3:
-                this.pRemovRemedio = new PainelRemoverRemedio(jsonUsuario);
-                mostraTela(this.pCadRemedio);
-                break;
+
         }
     }
     
@@ -141,12 +137,6 @@ public class ControladorBase implements IControl{
     }
     
     //########### area de objetos ##########//
-    private void areaRemedio(JSONObject json, String msgRecebida){
-        if(json.get("Comando").equals("Cadastro")){
-            this.pCadRemedio.atualizarStatusDeCadastro(msgRecebida);
-        }
-    }
-    
     private void areaUsuario(JSONObject json, String msgRecebida){
         try{
             if(json.get("Comando").equals("Cadastro")){
@@ -169,6 +159,12 @@ public class ControladorBase implements IControl{
                         opcaoPainelUnitarios(2, jsonEntrar);
                     }
                 }
+                else if(jsonEntrar.get("Existente").equals("nenhum")){
+                    JOptionPane.showMessageDialog(null, "Nenhum usuario encontrado com essa senha/cpf", "ERRO", JOptionPane.ERROR_MESSAGE);
+                }
+                else if(jsonEntrar.get("Existente").equals("nao")){
+                    JOptionPane.showMessageDialog(null, "não há usuarios cadastrados", "ERRO", JOptionPane.ERROR_MESSAGE);
+                }
             }  
         } catch (ParseException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage() + " ERRO", "ERRO",JOptionPane.ERROR_MESSAGE);
@@ -188,13 +184,9 @@ public class ControladorBase implements IControl{
             this.out.writeUTF(msgEnvio);
             
             msgRecebida = this.in.readUTF();
+
+            areaUsuario(json, msgRecebida);
             
-            if(json.get("Objeto").equals("Remedio")){
-                areaRemedio(json, msgRecebida);
-            }
-            else if(json.get("Objeto").equals("Usuario")){
-                areaUsuario(json, msgRecebida);
-            }
                               
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage() + "Erro no envio da mensagem", "ERRO", JOptionPane.ERROR_MESSAGE);
@@ -203,8 +195,7 @@ public class ControladorBase implements IControl{
     
     public void criadorJsonEntrar(String cpf, String senha, String comando){
         JSONObject json = new JSONObject();
-        
-        json.put("Objeto", "Usuario");
+
         json.put("CPF", cpf);
         json.put("Senha", senha);
         json.put("Comando", comando);
@@ -214,8 +205,7 @@ public class ControladorBase implements IControl{
     
     public void criadorJsonCadastro(Pessoa user, String comando){
         JSONObject json = new JSONObject();
-        
-        json.put("Objeto", "Usuario");
+
         json.put("ID", user.getId());
         json.put("Nome", user.getNome());
         json.put("CPF", user.getCpf());
@@ -237,7 +227,7 @@ public class ControladorBase implements IControl{
         }
     }
     
-    public void cadastrarObj(String nome, String senha, String telefone, String data, String cpf, int tipoUser){
+    public boolean cadastrarObj(String nome, String senha, String telefone, String data, String cpf, int tipoUser){
         Pessoa user = null;
         
         try{
@@ -245,6 +235,7 @@ public class ControladorBase implements IControl{
                 throw new InputMismatchException();
             }
             else{
+               
                 switch(tipoUser){
                     
                     case 1://forn
@@ -261,12 +252,12 @@ public class ControladorBase implements IControl{
                 }
                 
                 criadorJsonCadastro(user, "Cadastro");
-                
-                user.id++;
+
+                return true;
             }
             
         }catch(InputMismatchException ex){
-            JOptionPane.showMessageDialog(null, "Não pode haver campos em branco!", "ERRO", JOptionPane.ERROR_MESSAGE);
+            return false;
         }
     }
 

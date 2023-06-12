@@ -1,25 +1,40 @@
 package ModuloFunc;
 
+import ModuloRemedio.Remedio;
 import TrabalhoDOOII.Main;
+import java.util.List;
 import javax.swing.DefaultListModel;
 import org.json.simple.JSONObject;
 
 public class PainelFuncionario extends javax.swing.JPanel {
-    private DefaultListModel model;
+    private DefaultListModel model = new DefaultListModel();
     private JSONObject jsonRecebimento;
+    private Remedio remedio;
     
     public PainelFuncionario(JSONObject jsonRecebimento) {
         initComponents();
         
+        btn_remover.setEnabled(false);
+        
         this.jsonRecebimento = jsonRecebimento;
         
-        carregarRemedios();
-        
         lbl_nomeFunc.setText(jsonRecebimento.get("Nome").toString() + "!");
+        
+        if(!Main.ctrlRemedio.SelecionarTodosRemedios().isEmpty()){
+            carregarRemedios();
+        }       
     }
     
     public void carregarRemedios(){
+        List<Remedio> listaRemedios = Main.ctrlRemedio.SelecionarTodosRemedios();
+        model.clear();
         
+        if(!listaRemedios.isEmpty()){
+            for(Remedio rem: listaRemedios){
+                model.addElement(rem.toString());
+            }
+            jlist_remedios.setModel(model);
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -96,6 +111,11 @@ public class PainelFuncionario extends javax.swing.JPanel {
 
         btn_remover.setFont(new java.awt.Font("Georgia", 1, 10)); // NOI18N
         btn_remover.setText("<html>\n\t<style>\n\t\t.obj {text-align: center;}\n\t</style>\n\n\t<div class = \"obj\">\n\t\tRemover <br> Remedio <br> do estoque\n\t</div>\n</html>\n");
+        btn_remover.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_removerMouseClicked(evt);
+            }
+        });
         add(btn_remover, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 140, 130, -1));
 
         btn_verificarAquisicoes.setFont(new java.awt.Font("Georgia", 1, 10)); // NOI18N
@@ -113,6 +133,11 @@ public class PainelFuncionario extends javax.swing.JPanel {
         jLabel4.setText("<html> \t\n<style> \t\t\n.obj {text-align: center;} \t\n</style>  \t\n<div class = \"obj\"> \t\t\nListagem  <br> Remedios \t\n</div> </html> \n");
         add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 10, 70, 50));
 
+        jlist_remedios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jlist_remediosMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jlist_remedios);
 
         add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 80, 160, 220));
@@ -137,6 +162,22 @@ public class PainelFuncionario extends javax.swing.JPanel {
     private void btn_msgFornMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_msgFornMouseClicked
         Main.ctrlBase.chat(jsonRecebimento);
     }//GEN-LAST:event_btn_msgFornMouseClicked
+
+    private void jlist_remediosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlist_remediosMouseClicked
+        btn_remover.setEnabled(true);
+
+        for(Remedio rem: Main.ctrlRemedio.SelecionarTodosRemedios()){
+            if(jlist_remedios.getSelectedValue().equals(rem.toString())){
+                remedio = rem;
+                break;
+            }
+        }
+        
+    }//GEN-LAST:event_jlist_remediosMouseClicked
+
+    private void btn_removerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_removerMouseClicked
+        Main.ctrlRemedio.removerRemedio(remedio, 1);
+    }//GEN-LAST:event_btn_removerMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

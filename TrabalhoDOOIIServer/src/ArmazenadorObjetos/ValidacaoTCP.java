@@ -28,7 +28,6 @@ public class ValidacaoTCP extends Thread{
         JSONParser jsonP = new JSONParser();
         Armazenador armC = new Armazenador(clientSock);
         
-        //List<String> listaRemedio = armC.carregadorArquivos("Remedios.json");
         List<String> listaCliente = armC.carregadorArquivos("Clientes.json");
         List<String> listaForn = armC.carregadorArquivos("Fornecedor.json");
         List<String> listaFunc = armC.carregadorArquivos("Funcionario.json");
@@ -41,40 +40,28 @@ public class ValidacaoTCP extends Thread{
                 msgIn = in.readUTF();
                 JSONObject json = (JSONObject) jsonP.parse(msgIn);
 
-//                if(json.get("Objeto").equals("Remedio")){
-//                    
-//                    if(json.get("Comando").equals("Cadastro")){
-//                        armC.serializadorRemedio(listaRemedio);
-//                    }
-//                    else if(json.get("Comando").equals("CarregarMemoria")){
-//                        armC.retornarLista(listaRemedio);
-//                    }
-//
-//                }
-//                else if(json.get("Objeto").equals("Usuario")){
-                    if(json.get("Comando").equals("Entrar")){
-                        armC.verificadorUsuario(json.get("CPF").toString(), json.get("Senha").toString(), listaGeral);
+                if(json.get("Comando").equals("Entrar")){
+                    armC.verificadorUsuario(json.get("CPF").toString(), json.get("Senha").toString(), listaGeral);
+                }
+                else if(json.get("Comando").equals("Cadastro")){
+
+                    listaGeral.add(msgIn);
+
+                    if(json.get("Tipo").equals("Fornecedor")){
+                        listaForn.add(msgIn);
+                        armC.serializadorFornecedor(listaForn);
                     }
-                    else if(json.get("Comando").equals("Cadastro")){
-
-                        listaGeral.add(msgIn);
-
-                        if(json.get("Tipo").equals("Fornecedor")){
-                            listaForn.add(msgIn);
-                            armC.serializadorFornecedor(listaForn);
-                        }
-                        else if(json.get("Tipo").equals("Funcionario")){
-                            listaFunc.add(msgIn);
-                            armC.serializadorFuncionario(listaFunc);
-                        }
-                        else if(json.get("Tipo").equals("Cliente")){
-                            listaCliente.add(msgIn);
-                            armC.serializadorCliente(listaCliente);
-                        } 
-
-                        armC.serializadorGeral(listaGeral);
+                    else if(json.get("Tipo").equals("Funcionario")){
+                        listaFunc.add(msgIn);
+                        armC.serializadorFuncionario(listaFunc);
                     }
-                //}
+                    else if(json.get("Tipo").equals("Cliente")){
+                        listaCliente.add(msgIn);
+                        armC.serializadorCliente(listaCliente);
+                    } 
+
+                    armC.serializadorGeral(listaGeral);
+                }
             }
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage() + " ERRO", "ERRO", JOptionPane.ERROR_MESSAGE);

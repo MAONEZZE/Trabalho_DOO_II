@@ -1,6 +1,7 @@
 package ModuloRemedio;
 
 import TrabalhoDOOII.Main;
+import javax.swing.JOptionPane;
 import org.json.simple.JSONObject;
 
 public class PainelCadastroRemedio extends javax.swing.JPanel {
@@ -84,7 +85,7 @@ public class PainelCadastroRemedio extends javax.swing.JPanel {
         }
         add(tf_quant, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 210, 80, -1));
 
-        tf_preco.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,###.00"))));
+        tf_preco.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("###.00"))));
         add(tf_preco, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 210, 80, -1));
 
         jLabel8.setFont(new java.awt.Font("Georgia", 1, 12)); // NOI18N
@@ -136,14 +137,16 @@ public class PainelCadastroRemedio extends javax.swing.JPanel {
     
     private void btn_cadastrarRMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_cadastrarRMouseClicked
         String nome = tf_nomeR.getText();
-        float preco = Float.parseFloat(tf_preco.getText());
-        int quant = Integer.parseInt(tf_quant.getText());
-        
-        //trycatch
-        remedio = new Remedio(jsonUsuario.get("Nome").toString(), nome, quant, preco);
-        limparTF();
+        String preco = tf_preco.getText();
+        String quant = tf_quant.getText();
 
-        ctrlRemedio.cadastrarRemedio(remedio, "Cadastro");
+        if(Main.ctrlRemedio.cadastrarRemedio(jsonUsuario.get("Nome").toString(), nome, preco, quant)){
+            limparTF();
+            lbl_statusCad.setText("Remedio cadastrado com sucesso!");
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Não pode haver campos em branco!", "ERRO", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btn_cadastrarRMouseClicked
 
 
