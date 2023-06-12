@@ -45,8 +45,8 @@ public class PainelChat extends javax.swing.JPanel {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -96,7 +96,7 @@ public class PainelChat extends javax.swing.JPanel {
         ta_mensagens.setRows(5);
         jScrollPane1.setViewportView(ta_mensagens);
 
-        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 360, 160));
+        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 360, 130));
 
         jLabel4.setText("IP:");
         add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 20, 20));
@@ -109,13 +109,11 @@ public class PainelChat extends javax.swing.JPanel {
         jLabel6.setText("Chat");
         add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, -1, -1));
 
+        jLabel3.setText("<req>  nome do remedio --> para fazer requisição do remedio");
+        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 250, -1, -1));
+
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/TrabalhoDOOII/imagens/TelaBase.png"))); // NOI18N
         add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 380, -1));
-
-        jLabel7.setFont(new java.awt.Font("Georgia", 1, 26)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel7.setText("Chat");
-        add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 20, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
     private void bt_sairMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_sairMouseClicked
@@ -126,13 +124,13 @@ public class PainelChat extends javax.swing.JPanel {
     private void bt_voltarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_voltarMouseClicked
         ctrlChat.closeConnection();
         if(jsonRecebimento.get("Tipo").equals("Cliente")){
-            Main.ctrlBase.opcaoPainelUnitarios(1, jsonRecebimento);
+            Main.ctrlBase.opcaoPaineisUnitarios(1, jsonRecebimento);
         }
         else if(jsonRecebimento.get("Tipo").equals("Funcionario")){
-            Main.ctrlBase.opcaoPainelUnitarios(3, jsonRecebimento);
+            Main.ctrlBase.opcaoPaineisUnitarios(3, jsonRecebimento);
         }
         else if(jsonRecebimento.get("Tipo").equals("Fornecedor")){
-            Main.ctrlBase.opcaoPainelUnitarios(2, jsonRecebimento);
+            Main.ctrlBase.opcaoPaineisUnitarios(2, jsonRecebimento);
         }
     }//GEN-LAST:event_bt_voltarMouseClicked
 
@@ -148,10 +146,10 @@ public class PainelChat extends javax.swing.JPanel {
     private javax.swing.JButton bt_voltar;
     private javax.swing.JButton btn_enviar;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;

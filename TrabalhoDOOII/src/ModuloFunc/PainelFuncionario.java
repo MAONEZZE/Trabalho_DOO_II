@@ -6,7 +6,7 @@ import java.util.List;
 import javax.swing.DefaultListModel;
 import org.json.simple.JSONObject;
 
-public class PainelFuncionario extends javax.swing.JPanel {
+public class PainelFuncionario extends javax.swing.JPanel {//Tirar as requisições daqui, pq não tem cliente
     private DefaultListModel model = new DefaultListModel();
     private JSONObject jsonRecebimento;
     private Remedio remedio;
@@ -14,19 +14,20 @@ public class PainelFuncionario extends javax.swing.JPanel {
     public PainelFuncionario(JSONObject jsonRecebimento) {
         initComponents();
         
+        btn_verificarRequisicoes.setEnabled(false);
         btn_remover.setEnabled(false);
         
         this.jsonRecebimento = jsonRecebimento;
         
         lbl_nomeFunc.setText(jsonRecebimento.get("Nome").toString() + "!");
         
-        if(!Main.ctrlRemedio.SelecionarTodosRemedios().isEmpty()){
+        if(!Main.ctrlRemedio.selecionarTodos().isEmpty()){
             carregarRemedios();
         }       
     }
     
     public void carregarRemedios(){
-        List<Remedio> listaRemedios = Main.ctrlRemedio.SelecionarTodosRemedios();
+        List<Remedio> listaRemedios = Main.ctrlRemedio.selecionarTodos();
         model.clear();
         
         if(!listaRemedios.isEmpty()){
@@ -126,6 +127,7 @@ public class PainelFuncionario extends javax.swing.JPanel {
         add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, -1, -1));
 
         jButton2.setBackground(new java.awt.Color(0, 0, 51));
+        jButton2.setEnabled(false);
         add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 0, 10, 380));
 
         jLabel4.setFont(new java.awt.Font("Georgia", 1, 14)); // NOI18N
@@ -166,7 +168,7 @@ public class PainelFuncionario extends javax.swing.JPanel {
     private void jlist_remediosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlist_remediosMouseClicked
         btn_remover.setEnabled(true);
 
-        for(Remedio rem: Main.ctrlRemedio.SelecionarTodosRemedios()){
+        for(Remedio rem: Main.ctrlRemedio.selecionarTodos()){
             if(jlist_remedios.getSelectedValue().equals(rem.toString())){
                 remedio = rem;
                 break;
@@ -176,7 +178,7 @@ public class PainelFuncionario extends javax.swing.JPanel {
     }//GEN-LAST:event_jlist_remediosMouseClicked
 
     private void btn_removerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_removerMouseClicked
-        Main.ctrlRemedio.removerRemedio(remedio, 1);
+        Main.ctrlRemedio.remover(remedio, 1);
     }//GEN-LAST:event_btn_removerMouseClicked
 
 

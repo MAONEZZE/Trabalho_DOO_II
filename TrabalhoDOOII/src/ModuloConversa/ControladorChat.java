@@ -1,5 +1,6 @@
 package ModuloConversa;
 
+import ModuloRequisicao.Requisicao;
 import TrabalhoDOOII.Main;
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -10,8 +11,7 @@ import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.InputMismatchException;
 import javax.swing.JOptionPane;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -72,6 +72,32 @@ public class ControladorChat{
                         msg = msg.substring(0, rxPkt.getLength());
                         JSONObject json = (JSONObject) jsonP.parse(msg);
 
+                        
+                        if(json.get("message").toString().contains("<req>") && jsonRecebimento.get("Tipo").toString().equals("Funcionario")){
+                            String auxStr = json.get("message").toString();
+                            String nomeRemedio = auxStr.substring(5, auxStr.length());
+                            
+                            try{
+                                if (nomeRemedio.equals("")){
+                                    throw new InputMismatchException();
+                                }
+                                else{
+                                    LocalDateTime agora = LocalDateTime.now();
+                                    DateTimeFormatter formatterData = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                                    String dataFormatada = formatterData.format(agora);
+
+                                    Requisicao req = new Requisicao(dataFormatada, nomeRemedio, jsonRecebimento.get("Nome").toString());
+                                    
+                                    Main.ctrlReq.inserir(req);
+                                }
+                                
+                            }catch(InputMismatchException ex){
+                                JOptionPane.showMessageDialog(null, "Comando Invalido, digite o nome do remedio", "ERRO",JOptionPane.ERROR_MESSAGE);
+                            }
+                            
+                            
+                        }
+
                         Main.ctrlBase.pChat.mostrarMSG(json);
 
                     } catch (IOException ex) {
@@ -105,7 +131,7 @@ public class ControladorChat{
                     if(msg.equalsIgnoreCase("<exit>")){
                         mtcSock.leaveGroup(srvIP);
                         mtcSock.close();
-                        Main.ctrlBase.opcaoPainelUnitarios(3, jsonRecebimento);
+                        Main.ctrlBase.opcaoPaineisUnitarios(3, jsonRecebimento);
                     }
                     
                     json.put("date", dataFormatada);

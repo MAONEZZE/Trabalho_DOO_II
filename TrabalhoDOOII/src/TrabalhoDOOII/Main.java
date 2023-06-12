@@ -2,6 +2,7 @@ package TrabalhoDOOII;
 
 import Compartilhado.ControladorBase;
 import ModuloRemedio.ControladorRemedio;
+import ModuloRequisicao.ControladorRequisicao;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import javax.swing.JOptionPane;
@@ -9,6 +10,7 @@ import javax.swing.JOptionPane;
 public class Main {
     public static ControladorBase ctrlBase;
     public static ControladorRemedio ctrlRemedio = new ControladorRemedio();
+    public static ControladorRequisicao ctrlReq = new ControladorRequisicao();
     
 /*Controle de estoque, com funcionario, cliente e fornecedor 
  * RepositorioBase, EntidadeBase;

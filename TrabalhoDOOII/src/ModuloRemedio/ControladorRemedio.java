@@ -31,7 +31,7 @@ public class ControladorRemedio{
         }
     }
     
-    public boolean cadastrarRemedio(String nomeForn, String nome, String preco, String quant) {
+    public boolean inserir(String nomeForn, String nome, String preco, String quant) {
         try{
             if (verificadorVazios(nomeForn, nome, preco, quant)){
                 throw new InputMismatchException();
@@ -46,7 +46,7 @@ public class ControladorRemedio{
                 remedio = new Remedio(nomeForn, nome, quantReal, precoRealFloat);
                 listaRemedio.add(remedio);
                                 
-                serializadorRemedio();
+                serializador();
                 return true;
             }
             
@@ -55,9 +55,9 @@ public class ControladorRemedio{
         }
     }
     
-    public void removerRemedio(Remedio remedio, int op){
+    public void remover(Remedio remedio, int op){
         listaRemedio.remove(remedio);
-        serializadorRemedio();
+        serializador();
         
         switch(op){
             case 1: 
@@ -70,7 +70,7 @@ public class ControladorRemedio{
         }
     }
     
-    public boolean editarRemedio(String nomeForn, String nome, String preco, String quant,Remedio remedioSelec){
+    public boolean editar(String nomeForn, String nome, String preco, String quant,Remedio remedioSelec){
         try{
             if (verificadorVazios(nomeForn, nome, preco, quant)){
                 throw new InputMismatchException();
@@ -85,7 +85,7 @@ public class ControladorRemedio{
                 remedioSelec.setPreco(precoRealFloat);
                 remedioSelec.setQuantidade(quantReal);
                 
-                serializadorRemedio();
+                serializador();
                 return true;
             }
             
@@ -94,11 +94,11 @@ public class ControladorRemedio{
         }
     }
 
-    public List<Remedio> SelecionarTodosRemedios(){
+    public List<Remedio> selecionarTodos(){
         return listaRemedio;
     }
     
-    private void serializadorRemedio(){
+    private void serializador(){
         try {
             FileOutputStream arquivoOut = new FileOutputStream("Remedios.ser");
             ObjectOutputStream outSerializador = new ObjectOutputStream(arquivoOut);

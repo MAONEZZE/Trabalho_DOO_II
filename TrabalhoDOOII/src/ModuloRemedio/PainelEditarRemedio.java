@@ -122,7 +122,7 @@ public class PainelEditarRemedio extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void bt_voltarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_voltarMouseClicked
-        Main.ctrlBase.opcaoPainelUnitarios(2, jsonUsuario);
+        Main.ctrlBase.opcaoPaineisUnitarios(2, jsonUsuario);
     }//GEN-LAST:event_bt_voltarMouseClicked
 
     private void bt_sairMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_sairMouseClicked
@@ -140,7 +140,7 @@ public class PainelEditarRemedio extends javax.swing.JPanel {
         String preco = tf_preco.getText();
         String quant = tf_quant.getText();
 
-        if(Main.ctrlRemedio.editarRemedio(jsonUsuario.get("Nome").toString(), nome, preco, quant, this.remedioSelecionado)){
+        if(Main.ctrlRemedio.editar(jsonUsuario.get("Nome").toString(), nome, preco, quant, this.remedioSelecionado)){
             limparTF();
             lbl_statusCad.setText("Remedio editado com sucesso!");
             tf_nomeR.setEnabled(false);

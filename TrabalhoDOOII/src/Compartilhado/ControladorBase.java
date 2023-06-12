@@ -13,6 +13,7 @@ import ModuloFunc.Funcionario;
 import ModuloRemedio.PainelCadastroRemedio;
 import ModuloRemedio.PainelEditarRemedio;
 import ModuloRemedio.Remedio;
+import ModuloRequisicao.PainelRequisicao;
 import java.awt.BorderLayout;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -25,9 +26,8 @@ import javax.swing.JPanel;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import TrabalhoDOOII.Main;
 
-public class ControladorBase implements IControl{
+public class ControladorBase{
     public static PainelChat pChat;
     
     public PainelFuncionario pFunc;
@@ -41,6 +41,8 @@ public class ControladorBase implements IControl{
     
     private PainelCadastroRemedio pCadRemedio;
     private PainelEditarRemedio pEditRemedio;
+    
+    private PainelRequisicao pReq;
 
     //########## Comunicação Server ############//
     private InetAddress srvAddrGlobal;
@@ -92,11 +94,10 @@ public class ControladorBase implements IControl{
                 this.pEditRemedio = new PainelEditarRemedio(jsonUsuario, remedio);
                 mostraTela(this.pEditRemedio);
                 break;
-
         }
     }
     
-    public void opcaoPainelUnitarios(int op, JSONObject json){
+    public void opcaoPaineisUnitarios(int op, JSONObject json){
         switch(op){
             case 1:
                 this.pCliente = new PainelCliente(json);
@@ -115,6 +116,7 @@ public class ControladorBase implements IControl{
         }
     }
     
+       
     public void opcaoPaineisPrincipais(int op){
         switch(op){
             case 1:
@@ -128,6 +130,14 @@ public class ControladorBase implements IControl{
                 break;
         }
     }
+    
+    //###### Requisição e Aquisição #######//
+    
+    public void painelReq(JSONObject jsonUsuario){
+        this.pReq = new PainelRequisicao(jsonUsuario);
+        mostraTela(this.pReq);
+    }
+    
     
     //################ Chat ###############//
 
@@ -150,13 +160,13 @@ public class ControladorBase implements IControl{
                 if(jsonEntrar.get("Existente").equals("sim")){
 
                     if(jsonEntrar.get("Tipo").equals("Cliente")){
-                        opcaoPainelUnitarios(1, jsonEntrar);
+                        opcaoPaineisUnitarios(1, jsonEntrar);
                     }
                     else if(jsonEntrar.get("Tipo").equals("Funcionario")){
-                        opcaoPainelUnitarios(3, jsonEntrar);
+                        opcaoPaineisUnitarios(3, jsonEntrar);
                     }
                     else if(jsonEntrar.get("Tipo").equals("Fornecedor")){
-                        opcaoPainelUnitarios(2, jsonEntrar);
+                        opcaoPaineisUnitarios(2, jsonEntrar);
                     }
                 }
                 else if(jsonEntrar.get("Existente").equals("nenhum")){
@@ -260,5 +270,4 @@ public class ControladorBase implements IControl{
             return false;
         }
     }
-
 }

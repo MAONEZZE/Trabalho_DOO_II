@@ -1,10 +1,6 @@
 package Compartilhado;
 
-import java.util.Random;
-
-public abstract class Pessoa{
-    protected Random rand = new Random();
-    protected int id;
+public abstract class Pessoa extends EntidadeBase{
     protected String nome;
     protected String senha;
     protected String telefone;
@@ -13,7 +9,6 @@ public abstract class Pessoa{
     protected String tipoUser;
 
     public Pessoa(String nome, String senha, String telefone, String data, String cpf, String tipoUser) {
-        this.id = rand.nextInt(0, 30);
         this.nome = nome;
         this.senha = senha;
         this.telefone = telefone;

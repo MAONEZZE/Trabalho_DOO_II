@@ -122,7 +122,7 @@ public class PainelCadastroRemedio extends javax.swing.JPanel {
     }
     
     private void bt_voltarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_voltarMouseClicked
-        Main.ctrlBase.opcaoPainelUnitarios(2, jsonUsuario);
+        Main.ctrlBase.opcaoPaineisUnitarios(2, jsonUsuario);
     }//GEN-LAST:event_bt_voltarMouseClicked
 
     private void bt_sairMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_sairMouseClicked
@@ -140,7 +140,7 @@ public class PainelCadastroRemedio extends javax.swing.JPanel {
         String preco = tf_preco.getText();
         String quant = tf_quant.getText();
 
-        if(Main.ctrlRemedio.cadastrarRemedio(jsonUsuario.get("Nome").toString(), nome, preco, quant)){
+        if(Main.ctrlRemedio.inserir(jsonUsuario.get("Nome").toString(), nome, preco, quant)){
             limparTF();
             lbl_statusCad.setText("Remedio cadastrado com sucesso!");
         }
